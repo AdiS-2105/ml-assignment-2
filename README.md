@@ -63,8 +63,6 @@ The 41 input descriptors represent chemical attributes calculated using DRAGON s
    [https://adis-2105-ml-assignment-2.streamlit.app](https://adis-2105-ml-assignment-2.streamlit.app)  
    *(Interactive web application deployed on Streamlit Community Cloud)*
 
-> **Note for Student:** Before final PDF export, update the URLs above to match your actual GitHub repository URL and deployed Streamlit app URL.
-
 ---
 
 ## d. Models Used & Evaluation Metrics Table [5 Marks]
@@ -119,12 +117,14 @@ The companion Streamlit web application (`app.py`) is engineered to fulfill all 
 ## g. Repository Structure
 ```text
 project-folder/
+├── .streamlit/
+│   └── config.toml                # Forces light theme on Streamlit Cloud
 ├── app.py                         # Interactive Streamlit web application
 ├── requirements.txt               # Pinned dependencies for Streamlit Cloud deployment
 ├── README.md                      # Comprehensive academic report following BITS rubric
 ├── test_data.csv                  # Held-out 20% test dataset (41 features + target)
 ├── train_models.py                # Reproducible training and artifact export script
-├── ML_Assignment_2_Notebook.ipynb    # Fully executed Jupyter Notebook with EDA & visualizations
+├── ML_Assignment_2_Notebook.ipynb # Fully executed Jupyter Notebook with EDA & visualizations
 └── model/                         # Serialized preprocessor and model artifacts
     ├── preprocessor.joblib        # Fitted StandardScaler artifact (zero leakage)
     ├── logistic_regression.joblib # Trained Logistic Regression classifier
