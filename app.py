@@ -1,7 +1,7 @@
 """
 BioDeg-Predict: QSAR Molecular Biodegradation Classification Studio
 Course: Machine Learning (AIMLZG565), BITS Pilani WILP M.Tech (AIML)
-Student: Adithya Sathish Kumar | Random Seed: 2002
+Student: Adithya S | Random Seed: 2002
 
 BITS Pilani WILP ML Assignment 2 Streamlit Web Application:
   - Step 5a: Test Dataset Upload (CSV) with Sample Download   [1 Mark]
@@ -528,7 +528,7 @@ with st.sidebar:
                 Control Panel
             </div>
             <div style="font-size: 0.80rem; color: #64748B;">
-                Student: <b>Adithya Sathish Kumar</b>
+                Student: <b>Adithya S</b>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -654,7 +654,7 @@ st.markdown(f"""
             </div>
         </div>
         <div class="meta-grid">
-            <div class="meta-item"><b>Student:</b> Adithya Sathish Kumar</div>
+            <div class="meta-item"><b>Student:</b> Adithya S</div>
             <div class="meta-item"><b>Dataset:</b> UCI QSAR Biodegradation (ID: 254)</div>
             <div class="meta-item"><b>Features:</b> 41 Molecular Descriptors</div>
             <div class="meta-item"><b>Total Corpus:</b> 1,055 Compounds (844 Train / 211 Test)</div>
@@ -1052,7 +1052,7 @@ with tab_rubric:
 st.markdown("""
     <div class="footer-container">
         <b>BITS Pilani WILP M.Tech (AIML)</b> · Course: AIMLZG565 (Machine Learning) — Assignment 2<br>
-        Developed by <b>Adithya Sathish Kumar</b> · 
+        Developed by <b>Adithya S</b> · 
         <a href="https://github.com/AdiS-2105/ml-assignment-2" target="_blank">GitHub Repository</a> · 
         <a href="https://adis-2105-ml-assignment-2.streamlit.app/" target="_blank">Streamlit Cloud App</a> · 
         Seed: <code>2002</code>

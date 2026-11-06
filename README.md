@@ -2,7 +2,7 @@
 ## Course: Machine Learning (AIMLZG565) - Assignment 2
 ### Comprehensive In-Silico Biodegradability Classification via Molecular Descriptors
 
-**Student Name:** Adithya Sathish Kumar  
+**Student Name:** Adithya S  
 **Course:** AIMLZG565 - Machine Learning  
 **Evaluation Marks:** 15 / 15  
 **Submission Deadline:** 08-Nov-2026  
@@ -182,7 +182,7 @@ The application will launch automatically at `http://localhost:8501`.
 ---
 
 ## j. Anti-Plagiarism & Academic Integrity Statement
-This project has been developed independently by **Adithya Sathish Kumar** for **AIMLZG565 - Machine Learning, BITS Pilani WILP M.Tech (AIML)**:
+This project has been developed independently by **Adithya S** for **AIMLZG565 - Machine Learning, BITS Pilani WILP M.Tech (AIML)**:
 - **Unique Random Seed:** All data splits and model random states are governed by fixed `RANDOM_SEED = 2002`.
 - **Modular Domain Architecture:** Custom domain-specific nomenclature (`MOLECULAR_DESCRIPTOR_COLUMNS`, `ReadyBiodegradable`, biochemical interpretations) avoids generic templates.
 - **Granular Git History:** The repository was constructed via 6–8 logical, incremental commits reflecting the full engineering workflow from scoping to deployment.
