@@ -1095,30 +1095,25 @@ with tab_benchmark:
         else:
             formatted_obs = obs_text
             
-        row_html = f"""
-            <tr{tr_class}>
-                <td class="model-name">{model_name}</td>
-                <td class="obs-content">{formatted_obs}</td>
-            </tr>
-        """
+        row_html = f'<tr{tr_class}><td class="model-name">{model_name}</td><td class="obs-content">{formatted_obs}</td></tr>'
         obs_table_rows_html.append(row_html)
 
-    obs_html = f"""
-    <div class="obs-table-container">
-        <table class="obs-table">
-            <thead>
-                <tr>
-                    <th style="width: 25%;">ML Model Name</th>
-                    <th style="width: 75%;">Observation about model performance</th>
-                </tr>
-            </thead>
-            <tbody>
-                {''.join(obs_table_rows_html)}
-            </tbody>
-        </table>
-    </div>
-    """
-    st.markdown(obs_html, unsafe_allow_html=True)
+    rows_joined = "".join(obs_table_rows_html)
+    obs_html = (
+        '<div class="obs-table-container">'
+        '<table class="obs-table">'
+        '<thead><tr>'
+        '<th style="width: 24%;">ML Model Name</th>'
+        '<th style="width: 76%;">Observation about model performance</th>'
+        '</tr></thead>'
+        f'<tbody>{rows_joined}</tbody>'
+        '</table>'
+        '</div>'
+    )
+    if hasattr(st, "html"):
+        st.html(obs_html)
+    else:
+        st.markdown(obs_html, unsafe_allow_html=True)
 
     # Clean CSV download for evaluator convenience
     obs_export_df = pd.DataFrame(observations_rows, columns=["ML Model Name", "Observation about model performance"])
