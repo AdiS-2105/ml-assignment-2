@@ -300,6 +300,74 @@ button[data-baseweb="tab"][aria-selected="true"] {
     color: #2563EB !important;
     border-bottom-color: #2563EB !important;
 }
+
+/* ── Observations Table (Fully Wrapped, No Horizontal Truncation) ───────── */
+.obs-table-container {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    margin-top: 10px;
+    margin-bottom: 18px;
+}
+
+.obs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.90rem;
+    text-align: left;
+    background-color: #FFFFFF;
+}
+
+.obs-table th {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-weight: 700;
+    padding: 14px 18px;
+    border-bottom: 2px solid #E2E8F0;
+    letter-spacing: -0.01em;
+}
+
+.obs-table td {
+    padding: 14px 18px;
+    vertical-align: top;
+    border-bottom: 1px solid #F1F5F9;
+    color: #1E293B;
+    line-height: 1.65;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+.obs-table tr:last-child td {
+    border-bottom: none;
+}
+
+.obs-table td.model-name {
+    font-weight: 700;
+    color: #0F172A;
+    width: 24%;
+    min-width: 180px;
+    border-right: 1px solid #F1F5F9;
+}
+
+.obs-table td.obs-content {
+    width: 76%;
+}
+
+.obs-table tr.winner-row {
+    background-color: #EFF6FF !important;
+    border-left: 4px solid #2563EB;
+}
+
+.obs-table tr.winner-row td {
+    color: #1E3A8A;
+}
+
+.obs-table tr.winner-row td.model-name {
+    color: #1D4ED8;
+    font-weight: 800;
+}
 </style>
 """
 st.markdown(CUSTOM_LIGHT_CSS, unsafe_allow_html=True)
@@ -365,12 +433,14 @@ MODEL_NAMES = list(MODEL_SPECS.keys())
 # 4. Streamlit Compatibility Helper
 # ─────────────────────────────────────────────────────────────────────────────
 def render_dataframe(df, **kwargs):
-    """Safely renders DataFrame with full container width across Streamlit versions without warnings."""
+    """Safely renders DataFrame with full container width and clean hidden index across Streamlit versions."""
     sig = inspect.signature(st.dataframe)
     if "width" in sig.parameters:
         kwargs["width"] = "stretch"
     else:
         kwargs["use_container_width"] = True
+    if "hide_index" in sig.parameters and "hide_index" not in kwargs:
+        kwargs["hide_index"] = True
     return st.dataframe(df, **kwargs)
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -893,6 +963,7 @@ with tab_eval:
         preview_df = pd.DataFrame(preview_rows)
         render_dataframe(
             preview_df.style
+            .hide(axis="index")
             .format({c: "{:.4f}" for c in ["Accuracy", "AUC", "Precision", "Recall", "F1", "MCC"]})
             .highlight_max(subset=["Accuracy", "AUC", "Precision", "Recall", "F1", "MCC"], color="#DBEAFE")
         )
@@ -923,6 +994,7 @@ with tab_benchmark:
     st.markdown("#### Official Evaluation Metrics Comparison Table")
     render_dataframe(
         benchmark_df.style
+        .hide(axis="index")
         .format({col: "{:.4f}" for col in ["Accuracy", "AUC", "Precision", "Recall", "F1", "MCC"]})
         .highlight_max(subset=["Accuracy", "AUC", "Precision", "Recall", "F1", "MCC"], color="#DBEAFE"),
     )
@@ -996,11 +1068,11 @@ with tab_benchmark:
     # ── Model Performance Observations & Overall Winner Table ───────────────
     st.markdown("#### Model Performance Observations & Overall Winner")
     
-    observations_data = [
+    observations_rows = [
         ("Logistic Regression",
-         "Strong Linear Baseline: Achieves 88.63% Accuracy and 0.9358 AUC. The L2 ridge penalty (C=1.0) effectively controls coefficient inflation on collinear molecular descriptors. Positive weights for oxygen atom count (nO) and ester linkages (nArCOOR) align with biochemical enzymatic cleavage pathways facilitating biodegradation."),
+         "Strong Linear Baseline: Achieves 88.63% Accuracy and 0.9358 AUC. The L2 ridge penalty (C=1.0) effectively controls coefficient inflation on collinear molecular descriptors. Positive weights for oxygen atom count (<code>nO</code>) and ester linkages (<code>nArCOOR</code>) align with biochemical enzymatic cleavage pathways facilitating biodegradation."),
         ("Decision Tree",
-         "Moderate Performance with Pruning: Delivers 80.57% Accuracy, 0.7007 F1-score, and 0.5580 MCC. Pre-pruning to max_depth=5 successfully prevents unconstrained overfitting, but axis-aligned orthogonal decision boundaries struggle to model diagonal chemical response surfaces."),
+         "Moderate Performance with Pruning: Delivers 80.57% Accuracy, 0.7007 F1-score, and 0.5580 MCC. Pre-pruning to <code>max_depth=5</code> successfully prevents unconstrained overfitting, but axis-aligned orthogonal decision boundaries struggle to model diagonal chemical response surfaces."),
         ("KNN",
          "Effective Metric-Space Learning: Achieves 87.68% Accuracy and 0.9326 AUC. Leverages the chemical structure-activity similarity principle: congeneric molecules with proximate topological descriptors exhibit similar bioactivity. StandardScaler was essential to prevent Euclidean distance distortion."),
         ("Naive Bayes",
@@ -1011,8 +1083,54 @@ with tab_benchmark:
          "Support Vector Machine (RBF Kernel) 🏆: Definitive overall winner for the QSAR Biodegradation dataset. With moderate sample size (n=844 training compounds) and high feature dimensionality (d=41), kernel SVM strikes the optimal bias-variance tradeoff via structural risk minimization. It produces the fewest false positives (only 9/140) and achieves the highest Matthews Correlation Coefficient (0.7639) — the most reliable metric for class-imbalanced binary classification.")
     ]
     
-    obs_df = pd.DataFrame(observations_data, columns=["ML Model Name", "Observation about model performance"])
-    render_dataframe(obs_df)
+    obs_table_rows_html = []
+    for model_name, obs_text in observations_rows:
+        is_winner = "Overall" in model_name
+        tr_class = ' class="winner-row"' if is_winner else ""
+        
+        # Format key titles in bold for clean visual hierarchy
+        if ":" in obs_text:
+            title_part, rest_part = obs_text.split(":", 1)
+            formatted_obs = f"<b>{title_part}:</b>{rest_part}"
+        else:
+            formatted_obs = obs_text
+            
+        row_html = f"""
+            <tr{tr_class}>
+                <td class="model-name">{model_name}</td>
+                <td class="obs-content">{formatted_obs}</td>
+            </tr>
+        """
+        obs_table_rows_html.append(row_html)
+
+    obs_html = f"""
+    <div class="obs-table-container">
+        <table class="obs-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">ML Model Name</th>
+                    <th style="width: 75%;">Observation about model performance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {''.join(obs_table_rows_html)}
+            </tbody>
+        </table>
+    </div>
+    """
+    st.markdown(obs_html, unsafe_allow_html=True)
+
+    # Clean CSV download for evaluator convenience
+    obs_export_df = pd.DataFrame(observations_rows, columns=["ML Model Name", "Observation about model performance"])
+    obs_export_df["Observation about model performance"] = obs_export_df["Observation about model performance"].str.replace(r"<[^>]*>", "", regex=True)
+    obs_csv_bytes = obs_export_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="📥 Download Observations Table (CSV)",
+        data=obs_csv_bytes,
+        file_name="model_performance_observations.csv",
+        mime="text/csv",
+        help="Download the complete observations table in clean CSV format."
+    )
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 13. Application Footer
@@ -1020,7 +1138,7 @@ with tab_benchmark:
 st.markdown("""
     <div class="footer-container">
         <b>BITS Pilani WILP M.Tech (AIML)</b> · Course: AIMLZG565 (Machine Learning) — Assignment 2<br>
-        Developed by <b>Adithya S</b> · 
+        Developed by <b>Adithya Sathish Kumar</b> · 
         <a href="https://github.com/AdiS-2105/ml-assignment-2" target="_blank">GitHub Repository</a> · 
         <a href="https://adis-2105-ml-assignment-2.streamlit.app/" target="_blank">Streamlit Cloud App</a> · 
         Seed: <code>2002</code>
