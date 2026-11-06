@@ -2,7 +2,7 @@
 ## Course: Machine Learning (AIMLZG565) - Assignment 2
 ### Comprehensive In-Silico Biodegradability Classification via Molecular Descriptors
 
-**Student Name:** Adithya S  
+**Student Name:** Adithya Sathish Kumar  
 **Course:** AIMLZG565 - Machine Learning  
 **Evaluation Marks:** 15 / 15  
 **Submission Deadline:** 08-Nov-2026  
@@ -60,7 +60,7 @@ The 41 input descriptors represent chemical attributes calculated using DRAGON s
    *(Contains complete source code, `requirements.txt`, `README.md`, `test_data.csv`, `ML_Assignment_2_Notebook.ipynb`, and serialized artifacts in `model/`)*
 
 2. **Live Streamlit App Link:**  
-   [https://adis-2105-ml-assignment-2.streamlit.app](https://adis-2105-ml-assignment-2.streamlit.app)  
+   [https://adis-2105-ml-assignment-2.streamlit.app/](https://adis-2105-ml-assignment-2.streamlit.app/)  
    *(Interactive web application deployed on Streamlit Community Cloud)*
 
 ---
@@ -72,11 +72,11 @@ All five classification models were trained on the standardized training partiti
 ### Evaluation Metrics Comparison Table:
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Logistic Regression** | 0.8863 | 0.9358 | 0.8406 | 0.8169 | 0.8286 | 0.7437 |
-| **Decision Tree** | 0.8057 | 0.8316 | 0.7273 | 0.6761 | 0.7007 | 0.5580 |
-| **KNN** | 0.8768 | 0.9326 | 0.8082 | 0.8310 | 0.8194 | 0.7261 |
-| **Naive Bayes** | 0.6540 | 0.8227 | 0.4928 | **0.9577** | 0.6507 | 0.4547 |
-| **Support Vector Machine** | **0.8957** | **0.9534** | **0.8657** | 0.8169 | **0.8406** | **0.7639** |
+| Logistic Regression | 0.8863 | 0.9358 | 0.8406 | 0.8169 | 0.8286 | 0.7437 |
+| Decision Tree | 0.8057 | 0.8316 | 0.7273 | 0.6761 | 0.7007 | 0.5580 |
+| KNN | 0.8768 | 0.9326 | 0.8082 | 0.8310 | 0.8194 | 0.7261 |
+| Naive Bayes | 0.6540 | 0.8227 | 0.4928 | 0.9577 | 0.6507 | 0.4547 |
+| Support Vector Machine | 0.8957 | 0.9534 | 0.8657 | 0.8169 | 0.8406 | 0.7639 |
 
 ---
 
@@ -84,12 +84,12 @@ All five classification models were trained on the standardized training partiti
 
 | ML Model Name | Observation about model performance |
 | :--- | :--- |
-| **Logistic Regression** | **Strong Linear Baseline:** Achieves an impressive Accuracy of 88.63% and AUC of 0.9358. The L2 ridge penalty ($C=1.0$) effectively shrinks coefficients across collinear molecular descriptors (e.g., `SpMax_L`, `nHM`), mitigating variance. Positive coefficients for oxygen count (`nO`) and ester linkages (`nArCOOR`) align with established biochemical principles that oxygenated and ester functional groups provide enzymatic cleavage sites for microbial degradation. |
-| **Decision Tree** | **Moderate Performance with Pruning:** Achieves 80.57% Accuracy, 0.7007 F1-score, and 0.5580 MCC. Constraining tree complexity (`max_depth=5`, `min_samples_leaf=5`) was critical to curb severe overfitting. However, because molecular descriptors interact continuously across multi-dimensional topological manifolds, axis-parallel orthogonal decision splits create stepped approximations that struggle to capture diagonal interaction boundaries. |
-| **KNN** | **Effective Metric-Space Congeneric Clustering:** Delivers robust performance (87.68% Accuracy, 0.9326 AUC, 0.8194 F1-score). In chemical property prediction, molecules that share similar global topological and steric descriptors frequently share bioactivity (the structure-activity similarity principle). Feature standardization was critical; unscaled features would have allowed large-magnitude descriptors to distort Euclidean distance metrics. |
-| **Naive Bayes** | **Extreme Sensitivity / Asymmetric Tradeoff:** Achieves the highest Recall across all models (**95.77%**, detecting 68 out of 71 biodegradable compounds), but at the cost of the lowest Precision (49.28%) and lowest Accuracy (65.40%). GaussianNB assumes class-conditional independence between all 41 descriptors. In organic chemistry, molecular descriptors are inherently correlated (e.g., number of heavy atoms scales directly with carbon count and molecular connectivity). This violated independence assumption leads to overconfident joint likelihoods and 70 false positives. Despite lower overall accuracy, Naive Bayes is valuable as an initial non-hazardous screening filter. |
-| **Support Vector Machine** | **Superior Non-Linear Margin Maximization:** Achieves top scores in Accuracy (**89.57%**), AUC (**0.9534**), Precision (**86.57%**), F1 (**0.8406**), and MCC (**0.7639**). The Radial Basis Function (RBF) kernel projects the 41-dimensional chemical descriptor space into an infinite-dimensional reproducing kernel Hilbert space, smoothly untangling complex non-linear biochemical boundaries while the maximum-margin hyperplane enforces strong regularization against overfitting. |
-| **Overall, Winner for your dataset?** | **Support Vector Machine (RBF Kernel) 🏆:** SVM is the definitive overall winner for the QSAR Biodegradation dataset. In molecular QSAR modeling with moderate sample sizes ($n = 844$ training compounds) and high feature dimensionality ($d = 41$), kernel SVM strikes the optimal bias-variance tradeoff via structural risk minimization. It produced the fewest false positives (only 9 out of 140 negative compounds) and highest Matthews Correlation Coefficient (0.7639), making it the most dependable classifier for regulatory chemical screening. |
+| Logistic Regression | Strong Linear Baseline: Achieves an impressive Accuracy of 88.63% and AUC of 0.9358. The L2 ridge penalty ($C=1.0$) effectively shrinks coefficients across collinear molecular descriptors (e.g., `SpMax_L`, `nHM`), mitigating variance. Positive coefficients for oxygen count (`nO`) and ester linkages (`nArCOOR`) align with established biochemical principles that oxygenated and ester functional groups provide enzymatic cleavage sites for microbial degradation. |
+| Decision Tree | Moderate Performance with Pruning: Achieves 80.57% Accuracy, 0.7007 F1-score, and 0.5580 MCC. Constraining tree complexity (`max_depth=5`, `min_samples_leaf=5`) was critical to curb severe overfitting. However, because molecular descriptors interact continuously across multi-dimensional topological manifolds, axis-parallel orthogonal decision splits create stepped approximations that struggle to capture diagonal interaction boundaries. |
+| KNN | Effective Metric-Space Congeneric Clustering: Delivers robust performance (87.68% Accuracy, 0.9326 AUC, 0.8194 F1-score). In chemical property prediction, molecules that share similar global topological and steric descriptors frequently share bioactivity (the structure-activity similarity principle). Feature standardization was critical; unscaled features would have allowed large-magnitude descriptors to distort Euclidean distance metrics. |
+| Naive Bayes | Extreme Sensitivity / Asymmetric Tradeoff: Achieves the highest Recall across all models (95.77%, detecting 68 out of 71 biodegradable compounds), but at the cost of the lowest Precision (49.28%) and lowest Accuracy (65.40%). GaussianNB assumes class-conditional independence between all 41 descriptors. In organic chemistry, molecular descriptors are inherently correlated (e.g., number of heavy atoms scales directly with carbon count and molecular connectivity). This violated independence assumption leads to overconfident joint likelihoods and 70 false positives. Despite lower overall accuracy, Naive Bayes is valuable as an initial non-hazardous screening filter. |
+| Support Vector Machine | Superior Non-Linear Margin Maximization: Achieves top scores in Accuracy (89.57%), AUC (0.9534), Precision (86.57%), F1 (0.8406), and MCC (0.7639). The Radial Basis Function (RBF) kernel projects the 41-dimensional chemical descriptor space into an infinite-dimensional reproducing kernel Hilbert space, smoothly untangling complex non-linear biochemical boundaries while the maximum-margin hyperplane enforces strong regularization against overfitting. |
+| Overall, Winner for your dataset? | Support Vector Machine (RBF Kernel) 🏆: SVM is the definitive overall winner for the QSAR Biodegradation dataset. In molecular QSAR modeling with moderate sample sizes ($n = 844$ training compounds) and high feature dimensionality ($d = 41$), kernel SVM strikes the optimal bias-variance tradeoff via structural risk minimization. It produced the fewest false positives (only 9 out of 140 negative compounds) and highest Matthews Correlation Coefficient (0.7639), making it the most dependable classifier for regulatory chemical screening. |
 
 ---
 
@@ -182,7 +182,7 @@ The application will launch automatically at `http://localhost:8501`.
 ---
 
 ## j. Anti-Plagiarism & Academic Integrity Statement
-This project has been developed independently by **Adithya S** for **AIMLZG565 - Machine Learning, BITS Pilani WILP M.Tech (AIML)**:
+This project has been developed independently by **Adithya Sathish Kumar** for **AIMLZG565 - Machine Learning, BITS Pilani WILP M.Tech (AIML)**:
 - **Unique Random Seed:** All data splits and model random states are governed by fixed `RANDOM_SEED = 2002`.
 - **Modular Domain Architecture:** Custom domain-specific nomenclature (`MOLECULAR_DESCRIPTOR_COLUMNS`, `ReadyBiodegradable`, biochemical interpretations) avoids generic templates.
 - **Granular Git History:** The repository was constructed via 6–8 logical, incremental commits reflecting the full engineering workflow from scoping to deployment.
