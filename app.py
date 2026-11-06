@@ -288,17 +288,113 @@ p, span, label {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-/* ── Streamlit Tabs Styling ─────────────────────────────────────────────── */
-button[data-baseweb="tab"] {
-    font-weight: 600 !important;
-    font-size: 0.90rem !important;
-    color: #475569 !important;
-    padding: 10px 18px !important;
+/* ── Highlighted Tab Navigation Bar (Pill / Segmented Control) ──────────── */
+div[role="tablist"], [data-testid="stTabs"] [role="tablist"] {
+    background: #F1F5F9 !important;
+    padding: 6px !important;
+    border-radius: 12px !important;
+    border: 1.5px solid #CBD5E1 !important;
+    display: inline-flex !important;
+    gap: 8px !important;
+    margin-top: 6px !important;
+    margin-bottom: 22px !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
 }
 
-button[data-baseweb="tab"][aria-selected="true"] {
+/* Base Tab */
+div[data-testid="stTab"], button[data-baseweb="tab"] {
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    padding: 10px 22px !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+div[data-testid="stTab"] p, button[data-baseweb="tab"] p {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    margin: 0 !important;
+}
+
+/* Inactive Hover */
+div[data-testid="stTab"]:hover, button[data-baseweb="tab"]:hover {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border-color: #E2E8F0 !important;
+}
+
+div[data-testid="stTab"]:hover p, button[data-baseweb="tab"]:hover p {
+    color: #0F172A !important;
+}
+
+/* ACTIVE SELECTED TAB HIGHLIGHT - Bold Vibrant Primary Blue */
+div[data-testid="stTab"][aria-selected="true"],
+button[data-baseweb="tab"][aria-selected="true"],
+div[data-testid="stTab"][data-selected="true"] {
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
+    color: #FFFFFF !important;
+    border: 1px solid #1E40AF !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35) !important;
+}
+
+div[data-testid="stTab"][aria-selected="true"] p,
+div[data-testid="stTab"][aria-selected="true"] span,
+div[data-testid="stTab"][data-selected="true"] p,
+div[data-testid="stTab"][data-selected="true"] span,
+button[data-baseweb="tab"][aria-selected="true"] p,
+button[data-baseweb="tab"][aria-selected="true"] span {
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+}
+
+/* Remove default selection line indicator */
+.react-aria-SelectionIndicator, [data-baseweb="tab-highlight"] {
+    display: none !important;
+}
+
+/* ── Side Nav (Sidebar Radio Navigation) ─────────────────────────────────── */
+[data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] {
+    gap: 8px !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label {
+    background: #FFFFFF !important;
+    border: 1.5px solid #E2E8F0 !important;
+    border-radius: 9px !important;
+    padding: 10px 14px !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    color: #1E293B !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+    border-color: #2563EB !important;
+    background: #F8FAFC !important;
     color: #2563EB !important;
-    border-bottom-color: #2563EB !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
+    background: #EFF6FF !important;
+    border-color: #2563EB !important;
+    color: #1D4ED8 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18) !important;
 }
 
 /* ── Observations Table (Fully Wrapped, No Horizontal Truncation) ───────── */
@@ -429,9 +525,24 @@ MODEL_SPECS = {
 
 MODEL_NAMES = list(MODEL_SPECS.keys())
 
+NAV_OPTIONS = [
+    "🎯 Model Evaluation (Sections A & B)",
+    "📊 All 5 Models Benchmark (Section C)"
+]
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 4. Streamlit Compatibility Helper
 # ─────────────────────────────────────────────────────────────────────────────
+def create_main_tabs(tab_labels, default_label=None):
+    """Creates tabs with support for default selection across Streamlit versions."""
+    sig = inspect.signature(st.tabs)
+    kwargs = {}
+    if "default" in sig.parameters and default_label in tab_labels:
+        kwargs["default"] = default_label
+    if "key" in sig.parameters and default_label:
+        kwargs["key"] = f"tab_group_{default_label}"
+    return st.tabs(tab_labels, **kwargs)
+
 def render_dataframe(df, **kwargs):
     """Safely renders DataFrame with full container width and clean hidden index across Streamlit versions."""
     sig = inspect.signature(st.dataframe)
@@ -605,6 +716,18 @@ with st.sidebar:
     
     st.divider()
 
+    # ── 🧭 Side Nav: Dashboard View Selector ─────────────────────────────────
+    st.markdown("### 🧭 Navigation")
+    nav_view = st.radio(
+        "Dashboard Navigation",
+        NAV_OPTIONS,
+        index=0,
+        help="Switch between Model Evaluation and Benchmark Comparison views.",
+        label_visibility="collapsed"
+    )
+
+    st.divider()
+
     # ── Step 5a: Test Dataset Upload [1 Mark] ────────────────────────────────
     st.markdown("### 📂 1. Test Dataset Upload")
     uploaded_file = st.file_uploader(
@@ -749,12 +872,12 @@ else:
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 12. Main Dashboard Layout (Clean Tabs)
+# 12. Main Dashboard Layout (Clean Tabs with Side Nav Sync)
 # ─────────────────────────────────────────────────────────────────────────────
-tab_eval, tab_benchmark = st.tabs([
-    "🎯 Model Evaluation (Sections A & B)",
-    "📊 All 5 Models Benchmark (Section C)"
-])
+tab_eval, tab_benchmark = create_main_tabs(
+    NAV_OPTIONS,
+    default_label=nav_view
+)
 
 # Compute live predictions and probabilities for ALL models across the active test data
 all_model_metrics = {}
@@ -1086,7 +1209,6 @@ with tab_benchmark:
     obs_table_rows_html = []
     for model_name, obs_text in observations_rows:
         is_winner = "Overall" in model_name
-        tr_class = ' class="winner-row"' if is_winner else ""
         
         # Format key titles in bold for clean visual hierarchy
         if ":" in obs_text:
@@ -1094,26 +1216,32 @@ with tab_benchmark:
             formatted_obs = f"<b>{title_part}:</b>{rest_part}"
         else:
             formatted_obs = obs_text
+
+        if is_winner:
+            tr_attrs = 'class="winner-row" style="background-color: #EFF6FF !important; border-left: 4px solid #2563EB;"'
+            name_style = 'style="padding: 14px 18px; font-weight: 800; color: #1D4ED8; vertical-align: top; width: 24%; min-width: 170px; border-right: 1px solid #DBEAFE; line-height: 1.6;"'
+            content_style = 'style="padding: 14px 18px; color: #1E3A8A; vertical-align: top; width: 76%; line-height: 1.65; white-space: normal !important; word-wrap: break-word !important;"'
+        else:
+            tr_attrs = 'style="border-bottom: 1px solid #F1F5F9;"'
+            name_style = 'style="padding: 14px 18px; font-weight: 700; color: #0F172A; vertical-align: top; width: 24%; min-width: 170px; border-right: 1px solid #F1F5F9; line-height: 1.6;"'
+            content_style = 'style="padding: 14px 18px; color: #1E293B; vertical-align: top; width: 76%; line-height: 1.65; white-space: normal !important; word-wrap: break-word !important;"'
             
-        row_html = f'<tr{tr_class}><td class="model-name">{model_name}</td><td class="obs-content">{formatted_obs}</td></tr>'
+        row_html = f'<tr {tr_attrs}><td class="model-name" {name_style}>{model_name}</td><td class="obs-content" {content_style}>{formatted_obs}</td></tr>'
         obs_table_rows_html.append(row_html)
 
     rows_joined = "".join(obs_table_rows_html)
     obs_html = (
-        '<div class="obs-table-container">'
-        '<table class="obs-table">'
+        '<div class="obs-table-container" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-top: 10px; margin-bottom: 18px;">'
+        '<table class="obs-table" style="width: 100%; border-collapse: collapse; font-family: inherit; font-size: 0.90rem; background-color: #FFFFFF; text-align: left;">'
         '<thead><tr>'
-        '<th style="width: 24%;">ML Model Name</th>'
-        '<th style="width: 76%;">Observation about model performance</th>'
+        '<th style="width: 24%; min-width: 170px; background-color: #F8FAFC; color: #0F172A; font-weight: 700; padding: 14px 18px; border-bottom: 2px solid #E2E8F0; text-align: left;">ML Model Name</th>'
+        '<th style="width: 76%; background-color: #F8FAFC; color: #0F172A; font-weight: 700; padding: 14px 18px; border-bottom: 2px solid #E2E8F0; text-align: left;">Observation about model performance</th>'
         '</tr></thead>'
         f'<tbody>{rows_joined}</tbody>'
         '</table>'
         '</div>'
     )
-    if hasattr(st, "html"):
-        st.html(obs_html)
-    else:
-        st.markdown(obs_html, unsafe_allow_html=True)
+    st.markdown(obs_html, unsafe_allow_html=True)
 
     # Clean CSV download for evaluator convenience
     obs_export_df = pd.DataFrame(observations_rows, columns=["ML Model Name", "Observation about model performance"])
