@@ -528,7 +528,7 @@ with st.sidebar:
                 Control Panel
             </div>
             <div style="font-size: 0.80rem; color: #64748B;">
-                Student: <b>Adithya S</b>
+                Student: <b>Adithya Sathish Kumar</b>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -654,7 +654,7 @@ st.markdown(f"""
             </div>
         </div>
         <div class="meta-grid">
-            <div class="meta-item"><b>Student:</b> Adithya S</div>
+            <div class="meta-item"><b>Student:</b> Adithya Sathish Kumar</div>
             <div class="meta-item"><b>Dataset:</b> UCI QSAR Biodegradation (ID: 254)</div>
             <div class="meta-item"><b>Features:</b> 41 Molecular Descriptors</div>
             <div class="meta-item"><b>Total Corpus:</b> 1,055 Compounds (844 Train / 211 Test)</div>
@@ -681,11 +681,9 @@ else:
 # ─────────────────────────────────────────────────────────────────────────────
 # 12. Main Dashboard Layout (Clean Tabs)
 # ─────────────────────────────────────────────────────────────────────────────
-tab_eval, tab_benchmark, tab_predictions, tab_rubric = st.tabs([
+tab_eval, tab_benchmark = st.tabs([
     "🎯 Model Evaluation (Sections A & B)",
-    "📊 All 5 Models Benchmark (Section C)",
-    "🧪 Compound Predictions Explorer",
-    "📋 Rubric & Academic Audit Guide"
+    "📊 All 5 Models Benchmark (Section C)"
 ])
 
 # Compute live predictions and probabilities for ALL models across the active test data
@@ -832,9 +830,53 @@ with tab_eval:
         else:
             st.info("Single class in test data; ROC curve requires at least two distinct classes.")
 
-    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+    st.markdown("---")
 
-    # Quick expander for evaluator convenience
+    # ── 🧪 Compound Predictions Explorer (Merged into Model Evaluation) ───
+    st.markdown(f"### 🧪 Compound Prediction Explorer — {selected_model_name}")
+    st.caption("Inspect individual compound predictions, class probabilities, and diagnostic error classifications.")
+
+    results_df = active_df.copy()
+    results_df["Ground_Truth"] = y_true
+    results_df["Predicted_Class"] = selected_preds
+    results_df["P(RB)"] = np.round(selected_probs, 4)
+    results_df["Status"] = np.where(
+        y_true == selected_preds, "Correct ✅",
+        np.where((y_true == 0) & (selected_preds == 1), "False Positive ⚠️", "False Negative ❌")
+    )
+
+    f_col1, f_col2 = st.columns([1, 1])
+    with f_col1:
+        status_filter = st.radio(
+            "Filter Prediction Outcome",
+            ["All Compounds", "Classification Errors Only", "False Positives (Type I)", "False Negatives (Type II)", "Correct Predictions"],
+            horizontal=True
+        )
+
+    if status_filter == "Classification Errors Only":
+        filtered_view = results_df[results_df["Status"] != "Correct ✅"]
+    elif status_filter == "False Positives (Type I)":
+        filtered_view = results_df[results_df["Status"] == "False Positive ⚠️"]
+    elif status_filter == "False Negatives (Type II)":
+        filtered_view = results_df[results_df["Status"] == "False Negative ❌"]
+    elif status_filter == "Correct Predictions":
+        filtered_view = results_df[results_df["Status"] == "Correct ✅"]
+    else:
+        filtered_view = results_df
+
+    st.markdown(f"**Showing {len(filtered_view)} compounds:**")
+    display_cols = ["Ground_Truth", "Predicted_Class", "P(RB)", "Status"] + DESCRIPTOR_COLS[:8]
+    render_dataframe(filtered_view[display_cols].head(100))
+
+    csv_export_bytes = results_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label=f"📥 Download Full Predictions CSV ({selected_model_name})",
+        data=csv_export_bytes,
+        file_name=f"predictions_{selected_model_name.lower().replace(' ', '_')}.csv",
+        mime="text/csv"
+    )
+
+    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
     with st.expander("📋 Quick Preview: All 5 Models Benchmark Leaderboard & Winner Table"):
         preview_rows = []
         for name in MODEL_NAMES:
@@ -972,87 +1014,13 @@ with tab_benchmark:
     obs_df = pd.DataFrame(observations_data, columns=["ML Model Name", "Observation about model performance"])
     render_dataframe(obs_df)
 
-# ═════════════════════════════════════════════════════════════════════════════
-# TAB 3: Compound Predictions Explorer
-# ═════════════════════════════════════════════════════════════════════════════
-with tab_predictions:
-    st.markdown(f"### 🧪 Compound Prediction Explorer — {selected_model_name}")
-    st.caption("Inspect individual compound predictions, class probabilities, and diagnostic error classifications.")
-
-    results_df = active_df.copy()
-    results_df["Ground_Truth"] = y_true
-    results_df["Predicted_Class"] = selected_preds
-    results_df["P(RB)"] = np.round(selected_probs, 4)
-    results_df["Status"] = np.where(
-        y_true == selected_preds, "Correct ✅",
-        np.where((y_true == 0) & (selected_preds == 1), "False Positive ⚠️", "False Negative ❌")
-    )
-
-    f_col1, f_col2 = st.columns([1, 1])
-    with f_col1:
-        status_filter = st.radio(
-            "Filter Prediction Outcome",
-            ["All Compounds", "Classification Errors Only", "False Positives (Type I)", "False Negatives (Type II)", "Correct Predictions"],
-            horizontal=True
-        )
-
-    if status_filter == "Classification Errors Only":
-        filtered_view = results_df[results_df["Status"] != "Correct ✅"]
-    elif status_filter == "False Positives (Type I)":
-        filtered_view = results_df[results_df["Status"] == "False Positive ⚠️"]
-    elif status_filter == "False Negatives (Type II)":
-        filtered_view = results_df[results_df["Status"] == "False Negative ❌"]
-    elif status_filter == "Correct Predictions":
-        filtered_view = results_df[results_df["Status"] == "Correct ✅"]
-    else:
-        filtered_view = results_df
-
-    st.markdown(f"**Showing {len(filtered_view)} compounds:**")
-    display_cols = ["Ground_Truth", "Predicted_Class", "P(RB)", "Status"] + DESCRIPTOR_COLS[:8]
-    render_dataframe(filtered_view[display_cols].head(100))
-
-    csv_export_bytes = results_df.to_csv(index=False).encode("utf-8")
-    st.download_button(
-        label=f"📥 Download Full Predictions CSV ({selected_model_name})",
-        data=csv_export_bytes,
-        file_name=f"predictions_{selected_model_name.lower().replace(' ', '_')}.csv",
-        mime="text/csv"
-    )
-
-# ═════════════════════════════════════════════════════════════════════════════
-# TAB 4: Rubric & Academic Audit Guide
-# ═════════════════════════════════════════════════════════════════════════════
-with tab_rubric:
-    st.markdown("### 📋 BITS Pilani WILP 15-Mark Rubric Compliance Checklist")
-    
-    st.markdown("""
-    | Rubric Item | Requirement | Implementation Status | Marks |
-    | :--- | :--- | :--- | :---: |
-    | **Dataset Selection** | ≥ 12 features & ≥ 500 instances; Binary classification | **UCI QSAR Biodegradation:** 41 features, 1,055 instances (699 NRB / 356 RB) | **1 Mark** |
-    | **Mandatory Links** | GitHub repo and live Streamlit deployment URLs | Verified clickable links in README.md, HTML report, and app | **1 Mark** |
-    | **Step 5a: Dataset Upload** | File uploader for CSV + instant default test option | `st.file_uploader` + `st.download_button` + bundled `test_data.csv` default | **1 Mark** |
-    | **Step 5b: Model Dropdown** | Dropdown for Logistic Regression, Decision Tree, KNN, Naive Bayes, SVM | Implemented in sidebar with hyperparameter summary card | **1 Mark** |
-    | **Step 5c: Display Metrics** | Display Accuracy, AUC, Precision, Recall, F1, MCC | Section A renders 6 custom metric cards formatted to 4 decimals | **1 Mark** |
-    | **Step 5d: Confusion Matrix** | Heatmap confusion matrix & observations | High-res heatmap with quadrant annotations + styled report | **1 Mark** |
-    | **Comparison Table** | All 5 models on 6 metrics on test data | Section C renders full benchmark table with max values highlighted | **5 Marks** |
-    | **Observations Table** | Observations on all 5 models + Overall Winner | Comprehensive domain reasoning table matching rubric syntax | **3 Marks** |
-    | **Deployment & Code** | Clean code, reproducibility, requirements.txt | Hosted on Streamlit Cloud, fixed seed 2002, leak-free scaler | **1 Mark** |
-    | **TOTAL** | | **Guaranteed 15 / 15 Rubric Fulfillment** | **15 Marks** |
-    """)
-
-    st.markdown("#### Mandatory Links")
-    st.markdown("""
-    - **GitHub Repository:** [https://github.com/AdiS-2105/ml-assignment-2](https://github.com/AdiS-2105/ml-assignment-2)
-    - **Live Streamlit App:** [https://adis-2105-ml-assignment-2.streamlit.app/](https://adis-2105-ml-assignment-2.streamlit.app/)
-    """)
-
 # ─────────────────────────────────────────────────────────────────────────────
 # 13. Application Footer
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
     <div class="footer-container">
         <b>BITS Pilani WILP M.Tech (AIML)</b> · Course: AIMLZG565 (Machine Learning) — Assignment 2<br>
-        Developed by <b>Adithya S</b> · 
+        Developed by <b>Adithya Sathish Kumar</b> · 
         <a href="https://github.com/AdiS-2105/ml-assignment-2" target="_blank">GitHub Repository</a> · 
         <a href="https://adis-2105-ml-assignment-2.streamlit.app/" target="_blank">Streamlit Cloud App</a> · 
         Seed: <code>2002</code>
