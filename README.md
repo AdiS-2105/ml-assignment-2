@@ -56,11 +56,11 @@ The 41 input descriptors represent chemical attributes calculated using DRAGON s
 ## c. Mandatory Submission Links [1 Mark]
 
 1. **GitHub Repository Link:**  
-   [https://github.com/adithya-s-bits/ml-assignment-2](https://github.com/adithya-s-bits/ml-assignment-2)  
+   [https://github.com/AdiS-2105/ml-assignment-2](https://github.com/AdiS-2105/ml-assignment-2)  
    *(Contains complete source code, `requirements.txt`, `README.md`, `test_data.csv`, `ML_Assignment_2_Notebook.ipynb`, and serialized artifacts in `model/`)*
 
 2. **Live Streamlit App Link:**  
-   [https://adithya-s-bits-ml-assignment-2.streamlit.app](https://adithya-s-bits-ml-assignment-2.streamlit.app)  
+   [https://adis-2105-ml-assignment-2.streamlit.app](https://adis-2105-ml-assignment-2.streamlit.app)  
    *(Interactive web application deployed on Streamlit Community Cloud)*
 
 > **Note for Student:** Before final PDF export, update the URLs above to match your actual GitHub repository URL and deployed Streamlit app URL.
@@ -141,7 +141,7 @@ project-folder/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/adithya-s-bits/ml-assignment-2.git
+git clone https://github.com/AdiS-2105/ml-assignment-2.git
 cd ml-assignment-2
 ```
 
@@ -174,7 +174,7 @@ The application will launch automatically at `http://localhost:8501`.
 1. Push this repository to GitHub under your account.
 2. Navigate to [https://streamlit.io/cloud](https://streamlit.io/cloud) and sign in using your GitHub account.
 3. Click **"New App"**.
-4. Select your repository: `adithya-s-bits/ml-assignment-2`.
+4. Select your repository: `AdiS-2105/ml-assignment-2`.
 5. Specify Branch: `main`.
 6. Specify Main file path: `app.py`.
 7. Click **"Deploy"**. The app will automatically build using `requirements.txt` and launch with zero manual configuration.

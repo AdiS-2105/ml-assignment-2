@@ -638,7 +638,7 @@ st.markdown(
     """
     <div style="text-align: center; color: #64748b; font-size: 0.82rem; padding: 12px 0;">
         <b>BITS Pilani WILP M.Tech (AIML)</b> | Course: Machine Learning (AIMLZG565) | Assignment 2<br>
-        Developed by <b>Adithya S</b> | Reproducible Evaluation Seed: <code>2002</code> | Artifact Pipeline: <code>v1.0.0</code>
+        Developed by <b>Adithya S</b> (<a href="https://github.com/AdiS-2105" target="_blank" style="color: #3b82f6; text-decoration: none;">@AdiS-2105</a>) | Reproducible Evaluation Seed: <code>2002</code> | Artifact Pipeline: <code>v1.0.0</code>
     </div>
     """,
     unsafe_allow_html=True
