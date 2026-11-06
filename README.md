@@ -2,7 +2,7 @@
 ## Course: Machine Learning (AIMLZG565) - Assignment 2
 ### Comprehensive In-Silico Biodegradability Classification via Molecular Descriptors
 
-**Student Name:** Adithya S  
+**Student id:** 2026AJ05162  
 **Course:** AIMLZG565 - Machine Learning  
 **Evaluation Marks:** 15 / 15  
 **Submission Deadline:** 08-Nov-2026  
