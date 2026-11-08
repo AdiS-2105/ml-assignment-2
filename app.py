@@ -1268,9 +1268,9 @@ with tab_benchmark:
 st.markdown("""
     <div class="footer-container">
         <b>BITS Pilani WILP M.Tech (AIML)</b> · Course: AIMLZG565 (Machine Learning) — Assignment 2<br>
-        Developed by <b>Adithya Sathish Kumar</b> · 
+        Developed by <b>Adithya S</b> · 
         <a href="https://github.com/AdiS-2105/ml-assignment-2" target="_blank">GitHub Repository</a> · 
-        <a href="https://adis-2105-ml-assignment-2.streamlit.app/" target="_blank">Streamlit Cloud App</a> · 
+        <a href="https://2026aj05162-ml-assignment-2.streamlit.app/" target="_blank">Streamlit Cloud App</a> · 
         Seed: <code>2002</code>
     </div>
 """, unsafe_allow_html=True)
