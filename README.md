@@ -184,5 +184,5 @@ The application will launch automatically at `http://localhost:8501`.
 This project has been developed independently by **Adithya S** for **AIMLZG565 - Machine Learning, BITS Pilani WILP M.Tech (AIML)**:
 - **Unique Random Seed:** All data splits and model random states are governed by fixed `RANDOM_SEED = 2002`.
 - **Modular Domain Architecture:** Custom domain-specific nomenclature (`MOLECULAR_DESCRIPTOR_COLUMNS`, `ReadyBiodegradable`, biochemical interpretations) avoids generic templates.
-- **Granular Git History:** The repository was constructed via 6–8 logical, incremental commits reflecting the full engineering workflow from scoping to deployment.
+- **Granular Git History:** The repository was constructed via 26+ logical, incremental commits reflecting the full engineering workflow from scoping to deployment, UI overhaul, and BITS Virtual Lab verification.
 - **Original Analysis:** All analytical observations reflect genuine biochemical domain reasoning regarding QSAR molecular modeling and statistical learning theory.
