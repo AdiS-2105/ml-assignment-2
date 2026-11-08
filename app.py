@@ -544,6 +544,12 @@ def get_sample_csv_bytes():
             return f.read()
     return b""
 
+@st.cache_data
+def get_subset_50_csv_bytes():
+    df = load_default_test_data()
+    subset_df = df.sample(n=min(50, len(df)), random_state=42).reset_index(drop=True)
+    return subset_df.to_csv(index=False).encode("utf-8")
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. Evaluation Metric Calculation Helpers
 # ─────────────────────────────────────────────────────────────────────────────
@@ -658,6 +664,7 @@ def plot_confusion_matrix(cm: np.ndarray, model_name: str):
 preprocessor = load_preprocessor()
 trained_models = load_models()
 sample_csv_data = get_sample_csv_bytes()
+subset_50_csv_data = get_subset_50_csv_bytes()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 9. Sidebar Control Panel (Evaluator-First UX)
@@ -686,6 +693,7 @@ with st.sidebar:
         type=["csv"],
         help="Upload CSV containing 41 DRAGON descriptors + 'ReadyBiodegradable' column."
     )
+    upload_status_box = st.empty()
     
     st.download_button(
         label="📥 Download Sample test_data.csv",
@@ -693,6 +701,15 @@ with st.sidebar:
         file_name="test_data.csv",
         mime="text/csv",
         help="Download the held-out test data (211 compounds with ground truth) to test manual upload.",
+        use_container_width=True
+    )
+
+    st.download_button(
+        label="🧪 Download 50-Row Test Subset CSV",
+        data=subset_50_csv_data,
+        file_name="test_subset_50.csv",
+        mime="text/csv",
+        help="Download a 50-compound random subset to test dynamic re-computation of all metrics and charts.",
         use_container_width=True
     )
 
@@ -746,6 +763,7 @@ if uploaded_file is not None:
         raw_df = pd.read_csv(uploaded_file)
         X_parsed, y_parsed, err = validate_and_prepare_dataset(raw_df)
         if err:
+            upload_status_box.error(f"❌ Upload Error: {err}")
             st.error(f"❌ Upload Error: {err}")
             st.info("Falling back to bundled `test_data.csv` so the dashboard remains functional.")
             active_df = load_default_test_data()
@@ -753,7 +771,16 @@ if uploaded_file is not None:
         else:
             active_df = raw_df
             is_custom_upload = True
+            n_curr_total = len(active_df)
+            n_curr_nrb = int(np.sum(y_parsed == 0))
+            n_curr_rb = int(np.sum(y_parsed == 1))
+            upload_status_box.success(
+                f"**Uploaded:** `{uploaded_file.name}` | {n_curr_total} rows × {X_parsed.shape[1]} features (NRB: {n_curr_nrb}, RB: {n_curr_rb})"
+            )
+            if hasattr(st, "toast"):
+                st.toast(f"✅ Loaded '{uploaded_file.name}' ({n_curr_total} compounds) — All 5 models evaluated!", icon="✅")
     except Exception as exc:
+        upload_status_box.error(f"❌ Failed to parse uploaded CSV: {exc}")
         st.error(f"❌ Failed to parse uploaded CSV: {exc}")
         active_df = load_default_test_data()
         X_parsed, y_parsed, _ = validate_and_prepare_dataset(active_df)
@@ -806,6 +833,50 @@ else:
             <b>✅ Custom test dataset active:</b> <code>{uploaded_file.name}</code> ({n_total} compounds, {X_parsed.shape[1]} descriptors: {n_nrb} NRB / {n_rb} RB).
         </div>
     """, unsafe_allow_html=True)
+
+    with st.expander(f"📄 Uploaded Dataset Inspector: {uploaded_file.name} ({n_total} rows)", expanded=True):
+        m_col1, m_col2, m_col3, m_col4 = st.columns(4)
+        with m_col1:
+            st.markdown(f"""
+                <div class="metric-card-wrapper" style="padding: 12px 14px;">
+                    <div class="metric-title">Uploaded File</div>
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{uploaded_file.name}">
+                        {uploaded_file.name}
+                    </div>
+                    <div class="metric-desc">Custom Test Source</div>
+                </div>
+            """, unsafe_allow_html=True)
+        with m_col2:
+            st.markdown(f"""
+                <div class="metric-card-wrapper" style="padding: 12px 14px;">
+                    <div class="metric-title">Total Instances</div>
+                    <div class="metric-number" style="font-size: 1.4rem;">{n_total:,}</div>
+                    <div class="metric-desc">Evaluated Compounds</div>
+                </div>
+            """, unsafe_allow_html=True)
+        with m_col3:
+            st.markdown(f"""
+                <div class="metric-card-wrapper" style="padding: 12px 14px;">
+                    <div class="metric-title">Input Features</div>
+                    <div class="metric-number" style="font-size: 1.4rem;">{X_parsed.shape[1]}</div>
+                    <div class="metric-desc">DRAGON Descriptors</div>
+                </div>
+            """, unsafe_allow_html=True)
+        with m_col4:
+            balance_pct = (n_rb / n_total * 100) if n_total > 0 else 0.0
+            st.markdown(f"""
+                <div class="metric-card-wrapper" style="padding: 12px 14px;">
+                    <div class="metric-title">Target Class Balance</div>
+                    <div style="font-size: 0.95rem; font-weight: 700; color: #0F172A; margin: 4px 0;">
+                        0 (NRB): <b>{n_nrb}</b> | 1 (RB): <b>{n_rb}</b>
+                    </div>
+                    <div class="metric-desc">{balance_pct:.1f}% Ready Biodegradable</div>
+                </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+        st.markdown("**First 10 Rows Preview of Uploaded Data:**")
+        render_dataframe(active_df.head(10))
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 12. Main Dashboard Layout (Native Tabs)
