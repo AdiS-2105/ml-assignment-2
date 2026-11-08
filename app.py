@@ -1006,7 +1006,7 @@ with tab_eval:
     )
 
     st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
-    with st.expander("📋 Quick Preview: All 5 Models Benchmark Leaderboard & Winner Table"):
+    with st.expander("📋 Quick Preview: All 5 Models Benchmark Leaderboard & Winner Table", expanded=True):
         preview_rows = []
         for name in MODEL_NAMES:
             m = all_model_metrics[name]
