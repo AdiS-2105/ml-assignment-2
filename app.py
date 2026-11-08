@@ -40,7 +40,7 @@ import joblib
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="BioDeg-Predict | AIMLZG565",
-    page_icon="🧬",
+    page_icon="https://streamlit.io/images/brand/streamlit-mark-color.png",
     layout="wide",
     initial_sidebar_state="expanded",
 )
