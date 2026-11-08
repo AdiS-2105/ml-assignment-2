@@ -3,12 +3,12 @@ BioDeg-Predict: QSAR Molecular Biodegradation Classification Studio
 Course: Machine Learning (AIMLZG565), BITS Pilani WILP M.Tech (AIML)
 Student id: 2026AJ05162 | Random Seed: 2002
 
-BITS Pilani WILP ML Assignment 2 Streamlit Web Application:
-  - Step 5a: Test Dataset Upload (CSV) with Sample Download   [1 Mark]
-  - Step 5b: Model Selection Dropdown & Hyperparameter Box    [1 Mark]
-  - Step 5c: Display 6 Required Evaluation Metrics Cards       [1 Mark]
-  - Step 5d: Confusion Matrix & Classification Report         [1 Mark]
-  - Benchmarking: All 5 Models Comparison & Observations      [5 Marks + 3 Marks]
+Interactive Streamlit Web Application:
+  - Test Dataset Upload (CSV) with Sample Download
+  - Model Selection Dropdown & Hyperparameter Box
+  - 6 Key Classification Evaluation Metrics Display
+  - Confusion Matrix & Classification Report
+  - Multi-Model Benchmarking & Performance Analysis
 """
 
 import os
@@ -183,7 +183,7 @@ p, span, label {
     margin-bottom: 20px;
 }
 
-/* ── Section A Metric Cards ─────────────────────────────────────────────── */
+/* ── Metric Cards ─────────────────────────────────────────────────────────── */
 .metric-card-wrapper {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
@@ -288,30 +288,36 @@ p, span, label {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-/* ── Highlighted Tab Navigation Bar (Pill / Segmented Control) ──────────── */
-div[role="tablist"], [data-testid="stTabs"] [role="tablist"] {
-    background: #F1F5F9 !important;
-    padding: 6px !important;
-    border-radius: 12px !important;
-    border: 1.5px solid #CBD5E1 !important;
-    display: inline-flex !important;
-    gap: 8px !important;
-    margin-top: 6px !important;
-    margin-bottom: 22px !important;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
+/* ── Modern Light Native Streamlit Tabs Styling ──────────────────────────── */
+div[data-testid="stTabs"] {
+    margin-top: 8px;
+    margin-bottom: 24px;
 }
 
-/* Base Tab */
+div[role="tablist"], [data-testid="stTabs"] [role="tablist"] {
+    display: flex !important;
+    gap: 8px !important;
+    border-bottom: 2px solid #E2E8F0 !important;
+    padding-bottom: 0px !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 20px !important;
+}
+
+/* Base Tab Button */
 div[data-testid="stTab"], button[data-baseweb="tab"] {
     background-color: transparent !important;
-    border: 1px solid transparent !important;
-    border-radius: 8px !important;
-    padding: 10px 22px !important;
+    border: none !important;
+    border-bottom: 2.5px solid transparent !important;
+    border-radius: 6px 6px 0 0 !important;
+    padding: 10px 20px !important;
     font-size: 0.95rem !important;
     font-weight: 600 !important;
     color: #475569 !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
+    margin-bottom: -2px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -324,26 +330,26 @@ div[data-testid="stTab"] p, button[data-baseweb="tab"] p {
     margin: 0 !important;
 }
 
-/* Inactive Hover */
+/* Inactive Tab Hover */
 div[data-testid="stTab"]:hover, button[data-baseweb="tab"]:hover {
-    background-color: #FFFFFF !important;
+    background-color: #F8FAFC !important;
     color: #0F172A !important;
-    border-color: #E2E8F0 !important;
+    border-bottom-color: #CBD5E1 !important;
 }
 
 div[data-testid="stTab"]:hover p, button[data-baseweb="tab"]:hover p {
     color: #0F172A !important;
 }
 
-/* ACTIVE SELECTED TAB HIGHLIGHT - Bold Vibrant Primary Blue */
+/* Active Selected Tab Indicator */
 div[data-testid="stTab"][aria-selected="true"],
 button[data-baseweb="tab"][aria-selected="true"],
 div[data-testid="stTab"][data-selected="true"] {
-    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
-    color: #FFFFFF !important;
-    border: 1px solid #1E40AF !important;
-    border-radius: 8px !important;
-    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35) !important;
+    background-color: #EFF6FF !important;
+    color: #2563EB !important;
+    border-bottom: 2.5px solid #2563EB !important;
+    border-radius: 6px 6px 0 0 !important;
+    box-shadow: none !important;
 }
 
 div[data-testid="stTab"][aria-selected="true"] p,
@@ -352,49 +358,12 @@ div[data-testid="stTab"][data-selected="true"] p,
 div[data-testid="stTab"][data-selected="true"] span,
 button[data-baseweb="tab"][aria-selected="true"] p,
 button[data-baseweb="tab"][aria-selected="true"] span {
-    color: #FFFFFF !important;
-    font-weight: 800 !important;
-}
-
-/* Remove default selection line indicator */
-.react-aria-SelectionIndicator, [data-baseweb="tab-highlight"] {
-    display: none !important;
-}
-
-/* ── Side Nav (Sidebar Radio Navigation) ─────────────────────────────────── */
-[data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] {
-    gap: 8px !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stRadio"] label {
-    background: #FFFFFF !important;
-    border: 1.5px solid #E2E8F0 !important;
-    border-radius: 9px !important;
-    padding: 10px 14px !important;
-    font-size: 0.88rem !important;
-    font-weight: 600 !important;
-    color: #1E293B !important;
-    transition: all 0.15s ease !important;
-    cursor: pointer !important;
-    margin: 0 !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
-    width: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
-    border-color: #2563EB !important;
-    background: #F8FAFC !important;
     color: #2563EB !important;
+    font-weight: 700 !important;
 }
 
-[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) {
-    background: #EFF6FF !important;
-    border-color: #2563EB !important;
-    color: #1D4ED8 !important;
-    font-weight: 700 !important;
-    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.18) !important;
+.react-aria-SelectionIndicator, [data-baseweb="tab-highlight"] {
+    background-color: #2563EB !important;
 }
 
 /* ── Observations Table (Fully Wrapped, No Horizontal Truncation) ───────── */
@@ -525,24 +494,9 @@ MODEL_SPECS = {
 
 MODEL_NAMES = list(MODEL_SPECS.keys())
 
-NAV_OPTIONS = [
-    "🎯 Model Evaluation (Sections A & B)",
-    "📊 All 5 Models Benchmark (Section C)"
-]
-
 # ─────────────────────────────────────────────────────────────────────────────
 # 4. Streamlit Compatibility Helper
 # ─────────────────────────────────────────────────────────────────────────────
-def create_main_tabs(tab_labels, default_label=None):
-    """Creates tabs with support for default selection across Streamlit versions."""
-    sig = inspect.signature(st.tabs)
-    kwargs = {}
-    if "default" in sig.parameters and default_label in tab_labels:
-        kwargs["default"] = default_label
-    if "key" in sig.parameters and default_label:
-        kwargs["key"] = f"tab_group_{default_label}"
-    return st.tabs(tab_labels, **kwargs)
-
 def render_dataframe(df, **kwargs):
     """Safely renders DataFrame with full container width and clean hidden index across Streamlit versions."""
     sig = inspect.signature(st.dataframe)
@@ -594,7 +548,7 @@ def get_sample_csv_bytes():
 # 6. Evaluation Metric Calculation Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray, y_prob: np.ndarray):
-    """Computes all 6 required BITS rubric evaluation metrics."""
+    """Computes all 6 classification evaluation metrics."""
     has_two_classes = len(np.unique(y_true)) > 1
     return {
         "Accuracy": float(accuracy_score(y_true, y_pred)),
@@ -677,12 +631,21 @@ def plot_confusion_matrix(cm: np.ndarray, model_name: str):
         cmap="Blues",
         cbar=False,
         ax=ax,
-        annot_kws={"size": 11, "weight": "bold", "color": "#0F172A"},
         xticklabels=["Not Ready (0)", "Ready (1)"],
         yticklabels=["Not Ready (0)", "Ready (1)"],
         linewidths=1.5,
         linecolor="#E2E8F0"
     )
+    
+    threshold = cm.max() / 2.0
+    for text in ax.texts:
+        x, y = text.get_position()
+        j, i = int(x), int(y)
+        val = cm[i, j]
+        text.set_color("#FFFFFF" if val > threshold else "#0F172A")
+        text.set_weight("bold")
+        text.set_fontsize(11)
+
     ax.set_title(f"Confusion Matrix — {model_name}", fontsize=11, fontweight="bold", color="#0F172A", pad=12)
     ax.set_xlabel("Predicted Label (0: NRB, 1: RB)", fontsize=9, fontweight="bold", color="#334155", labelpad=8)
     ax.set_ylabel("True Label (0: NRB, 1: RB)", fontsize=9, fontweight="bold", color="#334155", labelpad=8)
@@ -716,19 +679,7 @@ with st.sidebar:
     
     st.divider()
 
-    # ── 🧭 Side Nav: Dashboard View Selector ─────────────────────────────────
-    st.markdown("### 🧭 Navigation")
-    nav_view = st.radio(
-        "Dashboard Navigation",
-        NAV_OPTIONS,
-        index=0,
-        help="Switch between Model Evaluation and Benchmark Comparison views.",
-        label_visibility="collapsed"
-    )
-
-    st.divider()
-
-    # ── Step 5a: Test Dataset Upload [1 Mark] ────────────────────────────────
+    # ── 1. Test Dataset Upload ───────────────────────────────────────────────
     st.markdown("### 📂 1. Test Dataset Upload")
     uploaded_file = st.file_uploader(
         "Upload Test Data CSV (with target column)",
@@ -747,7 +698,7 @@ with st.sidebar:
 
     st.divider()
 
-    # ── Step 5b: Model Selection Dropdown [1 Mark] ───────────────────────────
+    # ── 2. Model Selection Dropdown ──────────────────────────────────────────
     st.markdown("### 🤖 2. Model Selection")
     selected_model_name = st.selectbox(
         "Select Classification Model",
@@ -782,22 +733,7 @@ with st.sidebar:
         step=0.05,
         help="Probability cutoff for predicting compound as Ready Biodegradable (RB). Default: 0.50."
     )
-    st.caption("Standard BITS rubric benchmark metrics use the canonical threshold `0.50`.")
-
-    st.divider()
-
-    # ── Audit Checklist in Sidebar ───────────────────────────────────────────
-    st.markdown("""
-        <div style="background: #F1F5F9; border-radius: 8px; padding: 10px 12px; font-size: 0.78rem; color: #334155;">
-            <b>Rubric Compliance Check:</b><br>
-            ✓ 41 DRAGON Features (≥ 12)<br>
-            ✓ 1,055 Compounds (≥ 500)<br>
-            ✓ 5 Models Benchmarked<br>
-            ✓ 6 Metrics Dynamically Computed<br>
-            ✓ Zero Retraining on Test Data<br>
-            ✓ Leak-free StandardScaler
-        </div>
-    """, unsafe_allow_html=True)
+    st.caption("Default classification decision threshold: 0.50")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 10. Data Ingestion & Validation
@@ -872,12 +808,12 @@ else:
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 12. Main Dashboard Layout (Clean Tabs with Side Nav Sync)
+# 12. Main Dashboard Layout (Native Tabs)
 # ─────────────────────────────────────────────────────────────────────────────
-tab_eval, tab_benchmark = create_main_tabs(
-    NAV_OPTIONS,
-    default_label=nav_view
-)
+tab_eval, tab_benchmark = st.tabs([
+    "🎯 Model Evaluation & Explorer",
+    "📊 Multi-Model Benchmark"
+])
 
 # Compute live predictions and probabilities for ALL models across the active test data
 all_model_metrics = {}
@@ -900,7 +836,7 @@ selected_preds = all_model_preds[selected_model_name]
 selected_cm = all_model_cms[selected_model_name]
 
 # ═════════════════════════════════════════════════════════════════════════════
-# TAB 1: Selected Model Evaluation (Sections A & B)
+# TAB 1: Selected Model Evaluation & Explorer
 # ═════════════════════════════════════════════════════════════════════════════
 with tab_eval:
     is_svm = (selected_model_name == "Support Vector Machine")
@@ -914,8 +850,8 @@ with tab_eval:
     """, unsafe_allow_html=True)
     st.caption(f"{MODEL_SPECS[selected_model_name]['description']} Evaluating dynamically on {n_total} test compounds.")
 
-    # ── Section A — Selected Model Evaluation Metrics [1 Mark] ───────────────
-    st.markdown("#### Section A — Model Evaluation Metrics")
+    # ── Model Evaluation Metrics ─────────────────────────────────────────────
+    st.markdown("#### Performance Metrics")
     c1, c2, c3, c4, c5, c6 = st.columns(6)
 
     with c1:
@@ -974,8 +910,8 @@ with tab_eval:
 
     st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
 
-    # ── Section B — Confusion Matrix & Classification Report [1 Mark] ────────
-    st.markdown("#### Section B — Confusion Matrix & Classification Report")
+    # ── Confusion Matrix & Classification Report ─────────────────────────────
+    st.markdown("#### Confusion Matrix & Classification Report")
     col_cm, col_report = st.columns([1, 1.2])
 
     with col_cm:
@@ -1025,8 +961,8 @@ with tab_eval:
 
     st.markdown("---")
 
-    # ── 🧪 Compound Predictions Explorer (Merged into Model Evaluation) ───
-    st.markdown(f"### 🧪 Compound Prediction Explorer — {selected_model_name}")
+    # ── 🧪 Compound Predictions Explorer ─────────────────────────────────────
+    st.markdown(f"### 🧪 Compound Predictions Explorer — {selected_model_name}")
     st.caption("Inspect individual compound predictions, class probabilities, and diagnostic error classifications.")
 
     results_df = active_df.copy()
@@ -1092,10 +1028,10 @@ with tab_eval:
         )
 
 # ═════════════════════════════════════════════════════════════════════════════
-# TAB 2: All 5 Models Benchmark Comparison (Section C)
+# TAB 2: Multi-Model Benchmark Comparison
 # ═════════════════════════════════════════════════════════════════════════════
 with tab_benchmark:
-    st.markdown("### Section C — All 5 Models Benchmark Comparison")
+    st.markdown("### Multi-Model Benchmark Comparison")
     st.caption("Quantitative benchmarking of all 5 required machine learning classifiers evaluated on active test data.")
 
     # ── Benchmark Metrics Table ──────────────────────────────────────────────
@@ -1114,7 +1050,7 @@ with tab_benchmark:
     
     benchmark_df = pd.DataFrame(table_records)
 
-    st.markdown("#### Official Evaluation Metrics Comparison Table")
+    st.markdown("#### Model Comparison Table")
     render_dataframe(
         benchmark_df.style
         .hide(axis="index")

@@ -175,7 +175,7 @@ def evaluate_model_performance(
     ground_truth: np.ndarray
 ) -> Dict[str, Any]:
     """
-    Computes all 6 required BITS rubric evaluation metrics:
+    Computes all 6 classification evaluation metrics:
     1. Accuracy
     2. AUC Score (ROC-AUC)
     3. Precision

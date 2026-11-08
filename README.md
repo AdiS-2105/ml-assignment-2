@@ -4,7 +4,6 @@
 
 **Student id:** 2026AJ05162  
 **Course:** AIMLZG565 - Machine Learning  
-**Evaluation Marks:** 15 / 15  
 **Submission Deadline:** 08-Nov-2026  
 **Reproducible Random Seed:** `2002`
 
@@ -26,12 +25,12 @@ All models are subjected to rigorous leak-free preprocessing, 80:20 stratified c
 
 ---
 
-## b. Dataset Description [1 Mark]
+## b. Dataset Description
 The dataset selected for this study is the benchmark **UCI QSAR Biodegradation Dataset** (UCI Machine Learning Repository ID: 254), compiled by the Milano Chemometrics and QSAR Research Group.
 
 - **Data Source:** UCI Machine Learning Repository (`https://archive.ics.uci.edu/ml/datasets/QSAR+biodegradation`)
-- **Total Instances:** 1,055 organic compounds (strictly satisfies $\ge 500$ instances requirement)
-- **Total Features:** 41 molecular descriptors + 1 target attribute (strictly satisfies $\ge 12$ features requirement)
+- **Total Instances:** 1,055 organic compounds ($\ge 500$ instances)
+- **Total Features:** 41 molecular descriptors + 1 target attribute ($\ge 12$ features)
 - **Missing / Null Values:** 0 (clean numerical representation across all descriptors)
 - **Target Variable (`ReadyBiodegradable`):**
   - `0`: Not Ready Biodegradable (`NRB`) – **699 compounds (66.26%)**
@@ -53,7 +52,7 @@ The 41 input descriptors represent chemical attributes calculated using DRAGON s
 
 ---
 
-## c. Mandatory Submission Links [1 Mark]
+## c. Mandatory Project Links
 
 1. **GitHub Repository Link:**  
    [https://github.com/AdiS-2105/ml-assignment-2](https://github.com/AdiS-2105/ml-assignment-2)  
@@ -65,7 +64,7 @@ The 41 input descriptors represent chemical attributes calculated using DRAGON s
 
 ---
 
-## d. Models Used & Evaluation Metrics Table [5 Marks]
+## d. Models Used & Evaluation Metrics Table
 
 All five classification models were trained on the standardized training partition ($n = 844$) and evaluated on the identical held-out test partition ($n = 211$, 140 NRB, 71 RB) using fixed `RANDOM_SEED = 2002`.
 
@@ -80,7 +79,7 @@ All five classification models were trained on the standardized training partiti
 
 ---
 
-## e. Observations on Model Performance [3 Marks]
+## e. Observations on Model Performance
 
 | ML Model Name | Observation about model performance |
 | :--- | :--- |
@@ -95,16 +94,16 @@ All five classification models were trained on the standardized training partiti
 
 ## f. Streamlit Web Application Features
 
-The companion Streamlit web application (`app.py`) is engineered to fulfill all four requirements specified in Step 5 of the BITS rubric:
+The companion Streamlit web application (`app.py`) provides an interactive interface for evaluating the trained models:
 
-1. **Dataset Upload Option (CSV) [1 Mark]:**
+1. **Dataset Upload Option (CSV):**
    - Supports uploading user-specified test CSV files containing the 41 required molecular descriptors and ground-truth target.
    - Includes a built-in **"Use default test_data.csv"** toggle, allowing instant evaluation of the 211 held-out test compounds without requiring manual file upload.
-2. **Model Selection Dropdown [1 Mark]:**
+2. **Model Selection Dropdown:**
    - Allows users to switch between all five trained models (**Support Vector Machine, Logistic Regression, KNN, Decision Tree, Naive Bayes**) or choose **"All 5 Models Comparison (Leaderboard)"** for side-by-side benchmarking.
-3. **Display of Evaluation Metrics [1 Mark]:**
+3. **Display of Evaluation Metrics:**
    - Renders polished, custom-styled metric cards displaying all six evaluation metrics (**Accuracy, ROC-AUC, Precision, Recall, F1-Score, MCC**) computed live on the uploaded data.
-4. **Confusion Matrix & Classification Report [1 Mark]:**
+4. **Confusion Matrix & Classification Report:**
    - Generates an annotated Seaborn heatmap displaying True Negatives, False Positives, False Negatives, and True Positives.
    - Formats the complete per-class scikit-learn classification report into a styled interactive table.
 5. **Zero Retraining Guarantee:**
@@ -121,7 +120,7 @@ project-folder/
 │   └── config.toml                # Forces light theme on Streamlit Cloud
 ├── app.py                         # Interactive Streamlit web application
 ├── requirements.txt               # Pinned dependencies for Streamlit Cloud deployment
-├── README.md                      # Comprehensive academic report following BITS rubric
+├── README.md                      # Comprehensive project documentation and benchmark report
 ├── test_data.csv                  # Held-out 20% test dataset (41 features + target)
 ├── train_models.py                # Reproducible training and artifact export script
 ├── ML_Assignment_2_Notebook.ipynb # Fully executed Jupyter Notebook with EDA & visualizations
@@ -169,7 +168,7 @@ The application will launch automatically at `http://localhost:8501`.
 
 ---
 
-## i. Deployment on Streamlit Community Cloud (Step 6)
+## i. Deployment on Streamlit Community Cloud
 
 1. Push this repository to GitHub under your account.
 2. Navigate to [https://streamlit.io/cloud](https://streamlit.io/cloud) and sign in using your GitHub account.
