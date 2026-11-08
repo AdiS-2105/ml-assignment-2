@@ -59,7 +59,7 @@ The 41 input descriptors represent chemical attributes calculated using DRAGON s
    *(Contains complete source code, `requirements.txt`, `README.md`, `test_data.csv`, `ML_Assignment_2_Notebook.ipynb`, and serialized artifacts in `model/`)*
 
 2. **Live Streamlit App Link:**  
-   [https://adis-2105-ml-assignment-2.streamlit.app/](https://adis-2105-ml-assignment-2.streamlit.app/)  
+   [https://2026aj05162-ml-assignment-2.streamlit.app/](https://2026aj05162-ml-assignment-2.streamlit.app/)  
    *(Interactive web application deployed on Streamlit Community Cloud)*
 
 ---
