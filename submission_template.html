@@ -8,14 +8,20 @@
     <style>
         @page {
             size: A4;
-            margin: 18mm 16mm 18mm 16mm;
+            margin: 12mm 14mm 12mm 14mm;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: #1e293b;
-            line-height: 1.55;
-            font-size: 10.5pt;
+            line-height: 1.45;
+            font-size: 9.5pt;
             background-color: #ffffff;
             margin: 0;
             padding: 0;
@@ -23,28 +29,28 @@
 
         .header-box {
             text-align: center;
-            border-bottom: 2px solid #2563eb;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
+            border-bottom: 2.5px solid #2563eb;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
         }
 
         .header-title {
-            font-size: 17pt;
+            font-size: 15pt;
             font-weight: 800;
             color: #0f172a;
-            margin: 0 0 4px 0;
-            letter-spacing: -0.02em;
+            margin: 0 0 2px 0;
+            letter-spacing: -0.01em;
         }
 
         .header-subtitle {
-            font-size: 12pt;
-            font-weight: 600;
+            font-size: 11pt;
+            font-weight: 700;
             color: #2563eb;
-            margin: 0 0 6px 0;
+            margin: 0 0 4px 0;
         }
 
         .header-meta {
-            font-size: 9.5pt;
+            font-size: 9pt;
             color: #475569;
             font-weight: 500;
         }
@@ -56,25 +62,25 @@
             border: 1px solid #bfdbfe;
             padding: 2px 8px;
             border-radius: 4px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 8.5pt;
         }
 
         h2 {
-            font-size: 12.5pt;
+            font-size: 11.5pt;
             color: #0f172a;
-            border-bottom: 1.5px solid #e2e8f0;
-            padding-bottom: 5px;
-            margin-top: 22px;
-            margin-bottom: 10px;
+            border-bottom: 1.5px solid #cbd5e1;
+            padding-bottom: 4px;
+            margin-top: 14px;
+            margin-bottom: 8px;
             page-break-after: avoid;
         }
 
         h3 {
-            font-size: 11pt;
+            font-size: 10pt;
             color: #1e40af;
-            margin-top: 14px;
-            margin-bottom: 6px;
+            margin-top: 10px;
+            margin-bottom: 4px;
             page-break-after: avoid;
         }
 
@@ -82,22 +88,30 @@
         ul,
         ol {
             margin-top: 0;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+        }
+
+        ul {
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 3px;
         }
 
         .links-card {
             background-color: #f8fafc;
             border: 1.5px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 14px 18px;
-            margin-bottom: 18px;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
         }
 
         .link-row {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            font-size: 10.5pt;
+            margin-bottom: 6px;
+            font-size: 9.5pt;
         }
 
         .link-row:last-child {
@@ -107,7 +121,8 @@
         .link-label {
             font-weight: 700;
             color: #0f172a;
-            width: 220px;
+            width: 200px;
+            flex-shrink: 0;
         }
 
         .link-url a {
@@ -117,43 +132,76 @@
             word-break: break-all;
         }
 
-        .screenshot-container {
-            border: 2px dashed #94a3b8;
-            border-radius: 8px;
-            background-color: #f8fafc;
-            padding: 20px;
-            text-align: center;
-            min-height: 240px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 18px;
-            page-break-inside: avoid;
+        .link-subtext {
+            font-size: 8pt;
+            color: #64748b;
+            margin-left: 200px;
+            margin-bottom: 6px;
         }
 
-        .screenshot-img {
-            max-width: 100%;
-            height: auto;
+        .figure-card {
+            background-color: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            page-break-inside: avoid;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .figure-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .figure-title {
+            font-size: 9pt;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .figure-tag {
+            font-size: 7.5pt;
+            font-weight: 600;
+            color: #0284c7;
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 1px 6px;
+            border-radius: 3px;
+        }
+
+        .figure-desc {
+            font-size: 8pt;
+            color: #475569;
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .figure-img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            display: block;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            margin-bottom: 14px;
-            font-size: 9.5pt;
+            margin-top: 6px;
+            margin-bottom: 10px;
+            font-size: 8.5pt;
             page-break-inside: avoid;
         }
 
         th,
         td {
             border: 1px solid #cbd5e1;
-            padding: 6px 10px;
+            padding: 5px 8px;
             text-align: left;
+            vertical-align: top;
         }
 
         th {
@@ -176,19 +224,18 @@
             font-weight: 700;
         }
 
-        .code-box {
-            background-color: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-family: Consolas, Monaco, "Courier New", monospace;
-            font-size: 8.5pt;
-            white-space: pre-wrap;
-            margin-bottom: 10px;
-        }
-
         .page-break {
             page-break-before: always;
+            break-before: page;
+        }
+
+        .footer-note {
+            margin-top: 14px;
+            padding-top: 8px;
+            border-top: 1px solid #cbd5e1;
+            font-size: 8pt;
+            color: #64748b;
+            text-align: center;
         }
 
         @media print {
@@ -196,20 +243,29 @@
                 print-color-adjust: exact;
                 -webkit-print-color-adjust: exact;
             }
+
+            .figure-card {
+                box-shadow: none;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Header / Title -->
+    <!-- ===================================================================== -->
+    <!-- PAGE 1: Mandatory Submission Links + Primary BITS Lab Screenshot     -->
+    <!-- ===================================================================== -->
+
     <div class="header-box">
         <div class="header-title">BITS Pilani — Work Integrated Learning Programmes (WILP)</div>
         <div class="header-subtitle">M.Tech (AIML) | Machine Learning (AIMLZG565) — Assignment 2</div>
         <div class="header-meta">
             <b>Student Name:</b> Adithya S &nbsp;|&nbsp;
+            <b>Student ID:</b> 2026AJ05162 &nbsp;|&nbsp;
             <b>Course Code:</b> AIMLZG565 &nbsp;|&nbsp;
-            <span class="badge">Seed: 2002</span>
+            <span class="badge">Seed: 2002</span> &nbsp;|&nbsp;
+            <b>Date:</b> 08-Nov-2026
         </div>
     </div>
 
@@ -224,10 +280,10 @@
                 </a>
             </div>
         </div>
-        <div style="font-size: 8.5pt; color: #64748b; margin-left: 220px; margin-bottom: 8px;">
-            Contains: Complete source code, <code>requirements.txt</code>, <code>README.md</code>,
-            <code>test_data.csv</code>, <code>ML_Assignment_2_Notebook.ipynb</code>, and pre-trained models in
-            <code>model/</code>.
+        <div class="link-subtext">
+            Contains: Complete source code, <code>requirements.txt</code>, comprehensive <code>README.md</code>,
+            <code>test_data.csv</code>, Jupyter notebook <code>ML_Assignment_2_Notebook.ipynb</code>, and serialized
+            pre-trained models in <code>model/</code>.
         </div>
         <div class="link-row">
             <div class="link-label">2. Live Streamlit App Link:</div>
@@ -237,39 +293,84 @@
                 </a>
             </div>
         </div>
-        <div style="font-size: 8.5pt; color: #64748b; margin-left: 220px;">
+        <div class="link-subtext" style="margin-bottom: 0;">
             Interactive web application deployed on Streamlit Community Cloud (Free Tier) with dataset uploader, model
-            dropdown, live metrics, and confusion matrix.
+            dropdown, live evaluation metrics, confusion matrix, and 5-model comparative benchmark.
         </div>
     </div>
 
     <!-- Section 2: Screenshot of Execution on BITS Virtual Lab -->
-    <h2>2. BITS Virtual Lab Execution Screenshot</h2>
-    <div class="screenshot-container">
-        <!-- Replace 'bits_lab_screenshot.png' with your actual screenshot image file when exporting -->
-        <p style="font-size: 11pt; font-weight: 700; color: #1e293b; margin-bottom: 4px;">
-            [ BITS Virtual Lab Execution Proof Screenshot ]
-        </p>
-        <p style="font-size: 9pt; color: #64748b; max-width: 520px; margin: 0 auto 10px auto;">
-            Log into BITS Virtual Lab (vlab.bits-pilani.ac.in), launch JupyterLab or terminal, run
-            <code>streamlit run app.py</code> or execute <code>train_models.py</code>, take a screenshot, and place the
-            image here before printing to PDF.
-        </p>
-        <img src="bits_lab_screenshot.png" alt="BITS Virtual Lab Screenshot" class="screenshot-img"
-            onerror="this.style.display='none';">
+    <h2>2. BITS Virtual Lab Execution Proof Screenshot [1 Mark]</h2>
+    <p style="font-size: 8.5pt; color: #475569; margin-bottom: 8px;">
+        The entire assignment modeling pipeline was executed within the <b>BITS Virtual Lab</b> environment
+        (<code>g2.prayogshala.bits-pilani.ac.in</code>) under student account <b><code>s2026aj05162</code></b> (terminal:
+        <code>[s2026aj05162@ip-10-3-16-39 assignment 2]$</code>).
+    </p>
+
+    <!-- Figure 2.1: Terminal Execution Proof -->
+    <div class="figure-card">
+        <div class="figure-header">
+            <div class="figure-title">Figure 2.1 — Model Pipeline Training & Evaluation Benchmark in Terminal</div>
+            <span class="figure-tag">BITS Virtual Lab Proof (Primary)</span>
+        </div>
+        <div class="figure-desc">
+            Execution of <code>train_models.py</code> in VS Code terminal on BITS Virtual Lab (user:
+            <code>s2026aj05162</code>). Demonstrates training all 5 classifiers, artifact serialization into
+            <code>model/</code>, and printing the official 5-model evaluation metrics table.
+        </div>
+        <img src="images/bits_lab_execution_terminal.png" alt="BITS Virtual Lab Terminal Execution" class="figure-img">
     </div>
 
     <div class="page-break"></div>
 
-    <!-- Section 3: GitHub README Content -->
+    <!-- ===================================================================== -->
+    <!-- PAGE 2: Supporting Proof: Jupyter Notebook & Streamlit on BITS Lab    -->
+    <!-- ===================================================================== -->
+
+    <h2>2. BITS Virtual Lab Execution Proof (Continued)</h2>
+
+    <!-- Figure 2.2: Jupyter Notebook Execution Proof -->
+    <div class="figure-card">
+        <div class="figure-header">
+            <div class="figure-title">Figure 2.2 — Exploratory Data Analysis & Feature Importance in Jupyter Notebook</div>
+            <span class="figure-tag">BITS Virtual Lab Notebook</span>
+        </div>
+        <div class="figure-desc">
+            Execution of <code>ML_Assignment_2_Notebook.ipynb</code> in BITS Virtual Lab environment (Python 3.12.7 kernel).
+            Visualizes Top Molecular Descriptors by Standardized Log-Odds (Logistic Regression) and Top 10 Features by
+            Gini Impurity Reduction (Decision Tree).
+        </div>
+        <img src="images/bits_lab_execution_notebook.png" alt="BITS Virtual Lab Notebook Execution" class="figure-img">
+    </div>
+
+    <!-- Figure 2.3: Streamlit Web App Verification on BITS Lab Browser -->
+    <div class="figure-card">
+        <div class="figure-header">
+            <div class="figure-title">Figure 2.3 — Live Streamlit Cloud Deployment Verified in BITS Virtual Lab Browser</div>
+            <span class="figure-tag">Streamlit Cloud Deployment</span>
+        </div>
+        <div class="figure-desc">
+            The deployed Streamlit Cloud application (<code>https://2026aj05162-ml-assignment-2.streamlit.app</code>) verified
+            inside Google Chrome on BITS Virtual Lab. Displays student ID <code>2026AJ05162</code>, high-contrast light theme,
+            bundled <code>test_data.csv</code> status, and live Support Vector Machine metrics.
+        </div>
+        <img src="images/bits_lab_execution_streamlit.png" alt="BITS Virtual Lab Streamlit Cloud Verification" class="figure-img">
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ===================================================================== -->
+    <!-- PAGE 3: GitHub README Content: a, b, c, d (Evaluation Metrics Table)  -->
+    <!-- ===================================================================== -->
+
     <h2>3. GitHub README.md Content</h2>
 
     <h3>a. Problem Statement</h3>
     <p>
         Evaluating whether organic chemicals readily biodegrade in aerobic aquatic environments is an indispensable
-        safety requirement under international chemical regulations (e.g., EU REACH regulation and OECD 301 testing
-        guidelines). Laboratory degradation assays require prolonged 28-day microbial incubation tests that are
-        expensive, labor-intensive, and impractical for screening large chemical spaces.
+        safety requirement under international regulations (e.g., EU REACH regulation and OECD 301 testing guidelines).
+        Laboratory degradation assays require prolonged 28-day microbial incubation tests that are expensive,
+        labor-intensive, and impractical for screening large chemical spaces.
     </p>
     <p>
         Quantitative Structure-Activity Relationship (<b>QSAR</b>) modelling provides a rapid in-silico alternative by
@@ -279,25 +380,42 @@
         descriptors.
     </p>
 
-    <h3>b. Dataset Description</h3>
+    <h3>b. Dataset Description [1 Mark]</h3>
     <p>
         The study employs the benchmark <b>UCI QSAR Biodegradation Dataset</b> (ID: 254), compiled by the Milano
         Chemometrics and QSAR Research Group.
     </p>
     <ul>
-        <li><b>Total Instances:</b> 1,055 organic compounds (&ge; 500 rows).</li>
-        <li><b>Total Features:</b> 41 molecular descriptors + 1 target variable (&ge; 12 features).</li>
+        <li><b>Total Instances:</b> 1,055 organic compounds (&ge; 500 rows requirement satisfied).</li>
+        <li><b>Total Features:</b> 41 molecular descriptors + 1 target variable (&ge; 12 features requirement satisfied).</li>
         <li><b>Missing / Null Values:</b> 0 across all 41 continuous and discrete descriptors.</li>
-        <li><b>Target Classes:</b> 699 Not Ready Biodegradable (NRB, 0) and 356 Ready Biodegradable (RB, 1) (~2:1
-            ratio).</li>
-        <li><b>Stratified Split (80:20):</b> 844 training compounds and 211 held-out test compounds using fixed
+        <li><b>Target Class Distribution:</b> 699 Not Ready Biodegradable (NRB, 0) and 356 Ready Biodegradable (RB, 1) (~2:1 ratio).</li>
+        <li><b>Stratified Train-Test Split (80:20):</b> 844 training compounds and 211 held-out test compounds using fixed
             <code>RANDOM_SEED = 2002</code>. The held-out test set is saved as <code>test_data.csv</code>.
         </li>
         <li><b>Leak-Free Preprocessing:</b> <code>StandardScaler</code> was fitted exclusively on the 80% training set
-            and saved as <code>model/preprocessor.joblib</code>. Test samples are transformed without leakage.</li>
+            and saved as <code>model/preprocessor.joblib</code>. Test samples are transformed without data leakage.</li>
     </ul>
 
-    <h3>d. Models Used & Evaluation Metrics Comparison Table</h3>
+    <h3>c. GitHub Repository Structure [1 Mark]</h3>
+    <p>
+        Repository Link: <a href="https://github.com/AdiS-2105/ml-assignment-2" target="_blank">https://github.com/AdiS-2105/ml-assignment-2</a>
+    </p>
+    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px 10px; font-family: Consolas, monospace; font-size: 8pt; margin-bottom: 8px;">
+        project-folder/<br>
+        ├── app.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Interactive Streamlit application<br>
+        ├── requirements.txt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Pinned production dependencies<br>
+        ├── README.md &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Full documentation & rubric guide<br>
+        ├── test_data.csv &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Held-out test set (n=211 compounds)<br>
+        ├── ML_Assignment_2_Notebook.ipynb &nbsp;&nbsp;# EDA & training notebook<br>
+        ├── train_models.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Standalone reproducible training script<br>
+        └── model/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Pre-trained model artifacts & preprocessor<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── logistic_regression.joblib, decision_tree.joblib, knn.joblib<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├── naive_bayes.joblib, svm.joblib, preprocessor.joblib<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;└── metrics_summary.json
+    </div>
+
+    <h3>d. Models Used & Evaluation Metrics Comparison Table [5 Marks]</h3>
     <p>Performance of all five models evaluated on the held-out test set (n = 211; 140 NRB, 71 RB):</p>
     <table>
         <thead>
@@ -362,7 +480,11 @@
 
     <div class="page-break"></div>
 
-    <h3>e. Observations on Model Performance</h3>
+    <!-- ===================================================================== -->
+    <!-- PAGE 4: Observations Table, Web App Features, Integrity Statement     -->
+    <!-- ===================================================================== -->
+
+    <h3>e. Observations on Model Performance [3 Marks]</h3>
     <table>
         <thead>
             <tr>
@@ -412,25 +534,27 @@
         </tbody>
     </table>
 
-    <h3>f. Interactive Streamlit Web Application Features</h3>
+    <h3>f. Interactive Streamlit Web Application Features [4 Marks]</h3>
     <ul>
-        <li><b>Dataset Upload (CSV):</b> Supports custom test CSV uploads with a built-in default toggle to load
-            <code>test_data.csv</code> instantly.
-        </li>
-        <li><b>Model Selection:</b> Dropdown allows switching between all 5 models or viewing the 5-model comparative
-            leaderboard.</li>
-        <li><b>Evaluation Metrics:</b> Custom-styled metric cards displaying Accuracy, AUC, Precision, Recall, F1, and
-            MCC.</li>
-        <li><b>Diagnostic Tools:</b> Seaborn confusion matrix heatmap with exact counts alongside the per-class
-            classification report table.</li>
-        <li><b>Zero Retraining:</b> Evaluates saved artifacts (<code>model/*.joblib</code>) without triggering
-            retraining on the test data.</li>
+        <li><b>Dataset Upload (CSV):</b> Supports custom test CSV uploads with automatic column validation, along with built-in default loading of <code>test_data.csv</code> and download triggers.</li>
+        <li><b>Model Selection:</b> Interactive dropdown allowing seamless evaluation switching across all 5 models.</li>
+        <li><b>Evaluation Metrics Display:</b> Custom high-contrast metric cards for Accuracy, AUC, Precision, Recall, F1, and MCC.</li>
+        <li><b>Diagnostic Visualizations:</b> High-resolution Seaborn confusion matrix heatmap with exact cell counts alongside the complete per-class classification report.</li>
+        <li><b>Multi-Model Benchmark & Winner Showcase:</b> Interactive side-by-side comparison table, MCC/Accuracy radar comparison, and overall winner badge.</li>
+        <li><b>Zero Retraining Guarantee:</b> Strict evaluation-only pipeline leveraging pre-trained artifacts in <code>model/</code> without data leakage.</li>
     </ul>
 
-    <div
-        style="margin-top: 30px; padding-top: 10px; border-top: 1px solid #cbd5e1; font-size: 8.5pt; color: #64748b; text-align: center;">
-        Submitted by <b>2026AJ05162</b> &nbsp;|&nbsp; BITS Pilani WILP M.Tech (AIML) &nbsp;|&nbsp; Course: Machine
-        Learning (AIMLZG565) — Assignment 2
+    <h3>g. Anti-Plagiarism & Academic Integrity Statement</h3>
+    <p style="font-size: 8.5pt; color: #475569;">
+        I declare that this assignment submission is my own original work. The models, evaluation metrics, pipeline scripts,
+        and interactive Streamlit application were built and validated in compliance with the BITS Pilani WILP academic
+        integrity guidelines. All experiments use reproducible fixed random seed <code>2002</code>.
+    </p>
+
+    <div class="footer-note">
+        <b>Submitted by:</b> Adithya S (ID: <b>2026AJ05162</b>) &nbsp;|&nbsp;
+        BITS Pilani Work Integrated Learning Programmes (WILP) &nbsp;|&nbsp;
+        Course: Machine Learning (AIMLZG565) — Assignment 2
     </div>
 
 </body>
